@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Product Message</title>
+    <style>
+        /* ফন্ট সেটআপ */
+        @font-face {
+            font-family: 'Sabir2';
+            src: url('সাবির ২ UNICODE.ttf'); /* আপনার ফন্ট ফাইলটি ফোল্ডারে থাকতে হবে */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #2c003e 0%, #000000 100%);
+            font-family: 'Sabir2', 'Hind Siliguri', sans-serif;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* ব্যাকগ্রাউন্ডে ছোট ছোট তারার মতো এফেক্ট */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 10vw 20vh 2px #fff, 50vw 40vh 1px #fff, 80vw 10vh 2px #fff, 30vw 80vh 1px #fff, 70vw 70vh 2px #fff;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .card {
+            background: rgba(44, 0, 62, 0.4);
+            border: 2px solid #ffd700; /* গোল্ডেন বর্ডার */
+            backdrop-filter: blur(15px);
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(216, 27, 96, 0.2); }
+            to { box-shadow: 0 0 40px rgba(255, 215, 0, 0.4); }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: #f8f8f8;
+            font-weight: normal;
+        }
+
+        .rupee {
+            color: #ffd700;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+            margin: 15px 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .message-p {
+            color:lightgreen;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .continue-btn {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: #000;
+            border: none;
+            padding: 16px 45px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+        }
+
+        .continue-btn:hover {
+            transform: scale(1.05);
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+            background: linear-gradient(45deg, #fff, #ffd700);
+        }
+
+        .footer-emoji {
+            display: block;
+            margin-top: 15px;
+            font-size: 1.5rem;
+            color:teal;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>
+            " এই product টা এতটাই সুন্দর যে এটা আমি চাঁদ থেকে পৃথিবীতে পৌঁছাবো তার জন্য delivery charge "
+        </h2>
+        
+        <div class="rupee">49,990 টাকা</div>
+
+        <p class="message-p">
+            যদি তুমি order করতে চাও তো Continue button এ ক্লিক করে order টি সম্পূর্ণ করো।
+        </p>
+
+        <a href="propose.html" class="continue-btn">Continue ➔</a>
+        
+        <span class="footer-emoji">ধন্যবাদ 🌸</span>
+    </div>
+
+</body>
+</html>
