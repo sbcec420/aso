@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>💖 Love Question 💖</title>
+    <style>
+        @font-face {
+            font-family: 'সাবির ২ UNICODE';
+            src: url('সাবির ২ UNICODE.ttf');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            background-color: #f2dada;
+            font-family: 'সাবির ২ UNICODE', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 30px 20px;
+            text-align: center;
+            width: 95%;
+            max-width: 400px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            z-index: 10;
+            border:3px solid orange;
+        }
+
+        .gif-container {
+            height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .gif-container img {
+            max-width: 180px;
+            max-height: 160px;
+            border-radius: 20px;
+        }
+
+        h2 {
+            color: #556b2f;
+            font-size: 1.1rem;
+            margin-bottom: 0px;
+        }
+
+        #question-text {
+            font-size: 1.8rem;
+            font-weight: 450;
+            color: #ff1493; /* শুরুর রং */
+            margin: 20px 0;
+            min-height: 80px;
+            transition: color 0.3s ease; /* রঙের পরিবর্তন স্মুথ করার জন্য */
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .yes-btn {
+            background: #ff4d8d;
+            color: white;
+        }
+
+        #no-btn {
+            background: white;
+            color: #ff4d8d;
+            border: 2px solid #ff4d8d;
+            position: relative;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-card">
+        <h2>এই product টি order করার জন্য একটা প্রশ্নের উত্তর দাও -</h2>
+        <div class="gif-container">
+            <img id="main-gif" src="emm-thinking.gif" alt="Emoji">
+        </div>
+
+        <div id="question-text">তুমি কি আমাকে ভালোবাসো? ❤️</div>
+
+        <div class="btn-group">
+            <button class="yes-btn btn" onclick="goToNext()">Yes</button>
+            <button id="no-btn" class="btn">No</button>
+        </div>
+    </div>
+
+    <audio id="bg-song" src="dil-mera-tute-geya-hey.mp3" preload="auto"></audio>
+
+<script>
+    const noBtn = document.getElementById("no-btn");
+    const mainGif = document.getElementById("main-gif");
+    const questionMsg = document.getElementById("question-text");
+    const audio = document.getElementById("bg-song");
+
+    let count = 0;
+    let isMovingMode = false;
+
+    // টেক্সটের জন্য রঙের লিস্ট
+    const colors = ["red", "orange", "darkblue", "#399", "purple"];
+
+    const stages = [
+        { 
+            gif: "thinking.gif", 
+            msg: " এতো তাড়াতাড়ি উত্তর দিচ্ছো একটু ভেবে বলো 🥺" 
+        },
+        
+        { 
+            gif: "mochi-mochi-peach-cat.gif", 
+            msg: "নাও তোমায় আদর করছি এবার বলে দাও 😔 " 
+        },
+        
+        { 
+            gif: "fan-relax.gif", 
+            msg: "একটু মাথা ঠান্ডা করে উত্তর দাও" 
+        },
+        
+        { 
+            gif: "peach-goma-phone.gif", 
+            msg: "আমি তোমার খুবই CARE করবো 👩‍❤️‍👨" 
+        },
+        { 
+            gif: "puszi.gif", 
+            msg: "কেন এমন করছো তুমি? Yes বলে দাও plz... 😫" 
+        },
+        { 
+            gif: "couple-forgive-me.gif", 
+            msg: "বেবি মেনে যাও না! 😭 হাত জোড় করছি 🙏" 
+        },
+        { 
+            gif: "crying.gif", 
+            msg: "LAST বারের মতো বলছি ACCEPT করো 😡" 
+        }
+    ];
+
+    function teleportButton() {
+        if (!isMovingMode) return;
+
+        noBtn.style.position = "fixed";
+        
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+        
+        // স্ক্রিনের ভেতর বাটন লক রাখার জন্য মার্জিন
+        const margin = 80; 
+        const maxX = window.innerWidth - btnWidth - margin;
+        const maxY = window.innerHeight - btnHeight - margin;
+
+        const randomX = Math.max(margin, Math.floor(Math.random() * maxX));
+        const randomY = Math.max(margin, Math.floor(Math.random() * maxY));
+
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+    }
+
+    noBtn.addEventListener("click", () => {
+        audio.play().catch(() => {});
+
+        // প্রতি ক্লিকে টেক্সট কালার চেঞ্জ হবে
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        questionMsg.style.color = randomColor;
+
+        if (count < stages.length) {
+            mainGif.src = stages[count].gif;
+            questionMsg.innerText = stages[count].msg;
+            count++;
+        } else {
+            isMovingMode = true;
+            teleportButton();
+        }
+    });
+
+    noBtn.addEventListener("mouseover", teleportButton);
+    noBtn.addEventListener("touchstart", (e) => {
+        if (isMovingMode) {
+            e.preventDefault();
+            teleportButton();
+        }
+    });
+
+    function goToNext() {
+        audio.pause();
+        window.location.href = "speak.html";
+    }
+</script>
+</body>
+</html>

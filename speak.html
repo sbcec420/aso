@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Premium Love Message</title>
+    <style>
+        @font-face {
+            font-family: 'Sabir2';
+            src: url('সাবির ২ UNICODE.ttf');
+        }
+
+        /* পেজ নড়াচড়া বন্ধ করার মূল অংশ */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* স্ক্রলিং এবং নড়াচড়া বন্ধ */
+            touch-action: none; /* মোবাইল ড্র্যাগিং বন্ধ */
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #4a0e2e 0%, #1a050d 100%);
+            font-family: 'Sabir2', 'Hind Siliguri', sans-serif;
+            color: #fff;
+            position: relative;
+        }
+
+        /* হার্ট এনিমেশন লেয়ার */
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.6;
+            animation: fall linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .card {
+            background: rgba(255, 182, 193, 0.15);
+            border: 2px solid #ff69b4;
+            backdrop-filter: blur(15px);
+            padding: 30px 20px;
+            border-radius: 30px;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 85%;
+            z-index: 0;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { box-shadow: 0 0 20px rgba(255, 105, 180, 0.2); }
+            to { box-shadow: 0 0 40px rgba(255, 105, 180, 0.5); }
+        }
+
+        .instruction {
+            color: #ffb6c1;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        #dance-gif {
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+            object-fit: cover;
+        }
+
+        #dance-gif:active {
+            transform: scale(0.9);
+        }
+
+        .hidden-content {
+            display: none;
+            margin-top: 20px;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #fff;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .highlight-text {
+            color: #98fb98;
+            font-size: 1.1rem;
+            display: block;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+
+        .click-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-container" id="hearts"></div>
+
+    <div class="card">
+        <div id="initial-step">
+            <p class="instruction">প্রথমে Dancing করা ছবিতে চাপ দাও ⬇️</p>
+            <img src="dance.gif" id="dance-gif" alt="Dancing GIF" onclick="startSurprise()">
+        </div>
+
+        <div id="message-content" class="hidden-content">
+            <h2>
+                তোমাকে অসংখ্য ধন্যবাদ আমাকে accept করার জন্য ❤️🌸, my____ 👩‍❤️‍👨। <br>
+                আমি জানতাম তুমি আমায় ভালো বাসো 🥰 ।
+            </h2>
+            
+            <p class="highlight-text">
+                অনেকদিন ধরে একটা কথা মনে জমে আছে… আজ সেটা তোমাকে বলতে চাই 📢
+            </p>
+
+            <p style="margin-top: 15px; color: #ffb6c1; font-size: 0.9rem;">আমার মনের সেই কথা জানতে নিচে click করো ⬇️</p>
+            
+            <a href="april-fool.html" class="click-btn">Click Here ➔</a>
+        </div>
+    </div>
+
+    <audio id="surprise-song" src="mohabat-barsa-dena.mp3" loop="loop" preload="auto"></audio>
+
+    <script>
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const emojis = ['🌸', '💞', '💕', '❤️', '💖', '✨'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // স্ক্রিনের ৯৫% এর মধ্যে সীমাবদ্ধ রাখা যাতে ডানে নড়াচড়া না করে
+                const randomLeft = Math.floor(Math.random() * 95); 
+                heart.style.left = randomLeft + 'vw';
+                
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.delay = (Math.random() * 5) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        function startSurprise() {
+            const audio = document.getElementById('surprise-song');
+            const hiddenDiv = document.getElementById('message-content');
+            
+            audio.play().catch(e => console.log("Audio play blocked"));
+            hiddenDiv.style.display = 'block';
+            createHearts();
+        }
+
+        createHearts();
+    </script>
+</body>
+</html>
