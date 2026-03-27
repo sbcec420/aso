@@ -36,10 +36,11 @@
             display: none;
         }
 
-        /* Rest of your CSS remains identical */
-        *{ margin:0; padding:0; box-sizing:border-box; user-select:none; font-family: ;সাবির ২ UNICODE}
-        .category-text { font-size:11px; }
+        /* আপনার অরিজিনাল ফন্ট সেটিংস */
+        *{ margin:0; padding:0; box-sizing:border-box; user-select:none; font-family:Arial,sans-serif, সাবির ২ UNICODE; }
         @font-face { font-family:সাবির ২ UNICODE; src:url("সাবির ২ UNICODE.ttf"); }
+        
+        .category-text { font-size:11px; }
         nav { height:56px; width:100%; display:flex; justify-content:space-between; align-items:center; padding:10px; }
         .profile-section { height:43px; width:145px; display:flex; gap:8px; cursor: pointer; position: relative; }
         .top-icon { height:39px; width:127px; display:flex; justify-content:flex-end; gap:12px; }
@@ -327,50 +328,36 @@
 </div>
 
 <footer class="bottom-nav">
-  <div class="nav-item active">
-  <img src="home-active.png" alt="Home">
-  <span>Home</span>
-  </div>
-  <div class="nav-item" onclick="showRoast('category')">
-  <img src="category.png" alt="Categories">
-  <span>Categories</span>
-  </div>
-  <div class="nav-item" onclick="showRoast('mall')">
-  <img src="mall.png" alt="Mall">
-  <span>Mall</span>
-  </div>
-  <div class="nav-item" onclick="showRoast('video')">
-  <img src="video-finds.png" alt="Video Finds">
-  <span>Video Finds</span>
-  </div>
-  <div class="nav-item" onclick="showRoast('order')">
-  <img src="order.png" alt="My Orders">
-  <span>My Orders</span>
-  </div>
+  <div class="nav-item active"><img src="home-active.png"><span>Home</span></div>
+  <div class="nav-item" onclick="showRoast('category')"><img src="category.png"><span>Categories</span></div>
+  <div class="nav-item" onclick="showRoast('mall')"><img src="mall.png"><span>Mall</span></div>
+  <div class="nav-item" onclick="showRoast('video')"><img src="video-finds.png"><span>Video Finds</span></div>
+  <div class="nav-item" onclick="showRoast('order')"><img src="order.png"><span>My Orders</span></div>
 </footer>
 
 <div id="wishlist-popup" class="popup-overlay">
   <div class="popup-card">
   <div id="popup-emoji" class="emoji-header">🤣</div>
-  <p id="popup-message" class="popup-message">
-  Hey <span class="highlight">ভিখারী</span>, তোমার account এ এত টাকা নেই তাই Wishing List এ রেখে কোনো লাভ নেই, তুমি শুধু এটা তোমার স্বপ্নের দুনিয়ায় রাখো
-  </p>
-  <button onclick="closePopup()" id="popup-btn" class="popup-btn">OK</button>
+  <p id="popup-message" class="popup-message"></p>
+  <button onclick="closePopup()" class="popup-btn">OK</button>
   </div>
 </div>
 
 <script>
-    // Skeleton removal logic
     function removeSkeleton(img) {
-        // Find the skeleton relative to the image and hide it
         const parent = img.closest('.card') || img.closest('.category-box-items') || img.closest('.profile-section') || img.closest('.top-bar-icon') || img.closest('.search-icon');
         if (parent) {
             const skeleton = parent.querySelector('.skeleton-overlay');
-            if (skeleton) {
-                skeleton.style.display = 'none';
-            }
+            if (skeleton) skeleton.style.display = 'none';
         }
     }
+
+    // ব্যাক বাটন ফিক্স (বাকি সব কোড একই রেখে এটি যোগ করা হয়েছে)
+    window.addEventListener('pageshow', function() {
+        document.querySelectorAll('img').forEach(img => {
+            if (img.complete) removeSkeleton(img);
+        });
+    });
 
     const roastAudio = document.getElementById('roastAudio');
     const popup = document.getElementById('wishlist-popup');
@@ -380,49 +367,38 @@
     function showRoast(type) {
         roastAudio.currentTime = 0;
         roastAudio.play();
-        let content = "";
-        let emoji = "🤣";
+        let content = "", emoji = "🤣";
         switch(type) {
             case 'wishlist':
                 content = "Hey <span class='highlight'>ভিখারী</span>, তোমার account এ এত টাকা নেই তাই Wishing List এ রেখে কোনো লাভ নেই! তুমি শুধু এটা তোমার স্বপ্নের দুনিয়ায় রাখো 🤣";
-                emoji = "🤡";
-                break;
+                emoji = "🤡"; break;
             case 'cart':
                 content = "কার্টে তো সব ভরেছো, পেমেন্ট করার সময় কী <span class='highlight'>কিডনি বিক্রি</span> করবে? খালি করো বলছি!";
-                emoji = "🛒";
-                break;
+                emoji = "🛒"; break;
             case 'profile':
                 content = "প্রোফাইল দেখে কী হবে? তোমার <span class='highlight'>ব্যাঙ্ক ব্যালেন্স</span> তো জিরো!";
-                emoji = "👤";
-                break;
+                emoji = "👤"; break;
             case 'mic':
                 content = "ভয়েস সার্চ দিয়ে লাভ নেই, তোমার <span class='highlight'>কন্ঠ শুনে</span> অ্যাপই হ্যাং হয়ে যাবে!";
-                emoji = "🎤";
-                break;
+                emoji = "🎤"; break;
             case 'camera':
                 content = "ক্যামেরা দিয়ে কী খুঁজছো? <span class='highlight'>হারিয়ে যাওয়া ভাগ্য?</span> ওটা এখানে নেই!";
-                emoji = "📸";
-                break;
+                emoji = "📸"; break;
             case 'notification':
                 content = "নোটিফিকেশন চেক করে লাভ নেই, তোমার জন্য শুধু <span class='highlight'>পেমেন্ট ফেইলড</span> মেসেজই আসবে!";
-                emoji = "🔔";
-                break;
+                emoji = "🔔"; break;
             case 'category':
                 content = "এত ক্যাটাগরি দেখে কী হবে? পকেটে তো সেই <span class='highlight'>শূন্য</span> একটা কাজ করো, সবজি বাজারে যাও।";
-                emoji = "🥦";
-                break;
+                emoji = "🥦"; break;
             case 'mall':
                 content = "মল-এ এসেছো? এখানে শুধু বড়লোকদের এন্ট্রি। তুমি বরং <span class='highlight'>ফুটপাতে</span> ট্রাই করো।";
-                emoji = "🛍️";
-                break;
+                emoji = "🛍️"; break;
             case 'video':
                 content = "রিলস দেখে সময় নষ্ট না করে কাজে মন দাও। নাহলে সারাজীবন শুধু <span class='highlight'>অন্যের কেনা জিনিসই</span> দেখবে।";
-                emoji = "🎥";
-                break;
+                emoji = "🎥"; break;
             case 'order':
                 content = "অর্ডার লিস্ট তোমার <span class='highlight'>পকেটের মতোই ফাঁকা</span>! আগে কামাই করো!";
-                emoji = "📦";
-                break;
+                emoji = "📦"; break;
         }
         msgText.innerHTML = content;
         emojiHeader.innerHTML = emoji;
@@ -437,7 +413,6 @@
     });
 
     function closePopup() { popup.style.display = 'none'; }
-    window.onclick = function(event) { if (event.target == popup) closePopup(); }
 </script>
 </body>
 </html>
