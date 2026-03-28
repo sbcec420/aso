@@ -417,7 +417,7 @@
                 loader.style.opacity = '0';
                 setTimeout(() => {
                     loader.style.display = 'none';
-                }, 500);
+                }, 1500);
             }
         }
 
@@ -433,7 +433,7 @@
 
         // যদি ইমেজ লোড হতে অনেক দেরি হয় (Fallback)
         window.addEventListener('load', hideLoader);
-        setTimeout(hideLoader, 5000); // সর্বোচ্চ ৫ সেকেন্ড পর অটোমেটিক খুলে যাবে
+        setTimeout(hideLoader, 15000); // সর্বোচ্চ ৫ সেকেন্ড পর অটোমেটিক খুলে যাবে
     })();
 
     function removeSkeleton(img) {
