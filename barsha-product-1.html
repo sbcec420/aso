@@ -5,6 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Meesho Smooth Paging</title>
     <style>
+        /* === আপনার লোডারের জন্য প্রয়োজনীয় CSS === */
+        #loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .loader-container { text-align: center; }
+        .meesho-m-loader { width: 80px; height: 80px; overflow: visible; }
+        .m-path { fill: none; stroke-width: 12px; stroke-linecap: round; }
+        .bg-path { stroke: #E4C7ED; }
+        .anim-path {
+            stroke: #9c27b0;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-and-erase 3s ease-in-out infinite;
+        }
+
+        @keyframes draw-and-erase {
+            0% { stroke-dashoffset: 600; }
+            45% { stroke-dashoffset: 0; }
+            55% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -600; }
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            color: #777;
+            font-size: 18px;
+            font-weight: 500;
+            font-family: sans-serif;
+        }
+
+        /* === আপনার অরিজিনাল CSS স্টাইল (অপরিবর্তিত) === */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -150,6 +191,16 @@
 </head>
 <body>
 
+    <div id="loader-overlay">
+        <div class="loader-container">
+            <svg class="meesho-m-loader" viewBox="0 0 100 100">
+                <path class="m-path bg-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+                <path class="m-path anim-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+            </svg>
+            <div class="loading-text">Please wait...</div>
+        </div>
+    </div>
+
     <audio id="roastAudio" src="payari-samaj-gayi.mp3"></audio>
 
     <nav>
@@ -219,6 +270,15 @@
     </div>
 
     <script>
+        // === ইমেজ এবং পুরো পেজ লোড হওয়া পর্যন্ত লোডার দেখানোর ফাংশন ===
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-overlay');
+            // একটু স্মুথনেস এর জন্য ৫০০ মিলিসেকেন্ড ডিলে দেওয়া হলো
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
         // গান বাজানোর ফাংশন
         function playMusic() {
             const audio = document.getElementById('roastAudio');
