@@ -10,14 +10,46 @@
             src: url('সাবির ২ UNICODE.ttf');
         }
 
-        /* পেজ নড়াচড়া বন্ধ করার মূল অংশ */
+        /* --- Meesho লোডার স্টাইল (নতুন যোগ করা) --- */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+        .meesho-m-loader { width: 70px; height: 70px; overflow: visible; }
+        .m-path { fill: none; stroke-width: 12px; stroke-linecap: round; }
+        .bg-path { stroke: #f3e5f5; }
+        .anim-path {
+            stroke: #9c27b0;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-and-erase 2.5s ease-in-out infinite;
+        }
+        @keyframes draw-and-erase {
+            0% { stroke-dashoffset: 600; }
+            45% { stroke-dashoffset: 0; }
+            55% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -600; }
+        }
+        .loader-text { margin-top: 15px; font-family: sans-serif; color: #777; font-size: 16px; font-weight: 500; }
+
+        /* --- তোমার অরিজিনাল স্টাইল (অপরিবর্তিত) --- */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* স্ক্রলিং এবং নড়াচড়া বন্ধ */
-            touch-action: none; /* মোবাইল ড্র্যাগিং বন্ধ */
+            overflow: hidden;
+            touch-action: none;
         }
 
         body {
@@ -30,7 +62,6 @@
             position: relative;
         }
 
-        /* হার্ট এনিমেশন লেয়ার */
         .hearts-container {
             position: absolute;
             top: 0;
@@ -68,6 +99,9 @@
             width: 85%;
             z-index: 0;
             animation: pulse 3s infinite alternate;
+            /* লোডারের জন্য শুরুতে লুকানো */
+            visibility: hidden; 
+            opacity: 0;
         }
 
         @keyframes pulse {
@@ -92,9 +126,7 @@
             object-fit: cover;
         }
 
-        #dance-gif:active {
-            transform: scale(0.9);
-        }
+        #dance-gif:active { transform: scale(0.9); }
 
         .hidden-content {
             display: none;
@@ -142,9 +174,17 @@
 </head>
 <body>
 
+    <div id="loader-wrapper">
+        <svg class="meesho-m-loader" viewBox="0 0 100 100">
+            <path class="m-path bg-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+            <path class="m-path anim-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+        </svg>
+        <div class="loader-text">Please wait...</div>
+    </div>
+
     <div class="hearts-container" id="hearts"></div>
 
-    <div class="card">
+    <div class="card" id="main-card">
         <div id="initial-step">
             <p class="instruction">প্রথমে Dancing করা ছবিতে চাপ দাও ⬇️</p>
             <img src="dance.gif" id="dance-gif" alt="Dancing GIF" onclick="startSurprise()">
@@ -155,13 +195,10 @@
                 তোমাকে অসংখ্য ধন্যবাদ আমাকে accept করার জন্য ❤️🌸, my____ 👩‍❤️‍👨। <br>
                 আমি জানতাম তুমি আমায় ভালো বাসো 🥰 ।
             </h2>
-            
             <p class="highlight-text">
                 অনেকদিন ধরে একটা কথা মনে জমে আছে… আজ সেটা তোমাকে বলতে চাই 📢
             </p>
-
             <p style="margin-top: 15px; color: #ffb6c1; font-size: 0.9rem;">আমার মনের সেই কথা জানতে নিচে click করো ⬇️</p>
-            
             <a href="april-fool.html" class="click-btn">Click Here ➔</a>
         </div>
     </div>
@@ -169,21 +206,28 @@
     <audio id="surprise-song" src="mohabat-barsa-dena.mp3" loop="loop" preload="auto"></audio>
 
     <script>
+        // লোডার স্ক্রিপ্ট
+        window.addEventListener('load', function() {
+            const loader = document.getElementById("loader-wrapper");
+            const card = document.getElementById("main-card");
+            loader.style.opacity = "0";
+            loader.style.visibility = "hidden";
+            card.style.visibility = "visible";
+            card.style.opacity = "1";
+        });
+
+        // তোমার অরিজিনাল ফাংশনগুলো
         function createHearts() {
             const container = document.getElementById('hearts');
             const emojis = ['🌸', '💞', '💕', '❤️', '💖', '✨'];
-            
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 30; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
                 heart.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-                
-                // স্ক্রিনের ৯৫% এর মধ্যে সীমাবদ্ধ রাখা যাতে ডানে নড়াচড়া না করে
                 const randomLeft = Math.floor(Math.random() * 95); 
                 heart.style.left = randomLeft + 'vw';
-                
                 heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                heart.style.delay = (Math.random() * 5) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
                 container.appendChild(heart);
             }
         }
@@ -191,13 +235,10 @@
         function startSurprise() {
             const audio = document.getElementById('surprise-song');
             const hiddenDiv = document.getElementById('message-content');
-            
             audio.play().catch(e => console.log("Audio play blocked"));
             hiddenDiv.style.display = 'block';
             createHearts();
         }
-
-        createHearts();
     </script>
 </body>
 </html>

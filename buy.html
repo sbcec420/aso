@@ -8,12 +8,71 @@
         /* ফন্ট সেটআপ */
         @font-face {
             font-family: 'Sabir2';
-            src: url('সাবির ২ UNICODE.ttf'); /* আপনার ফন্ট ফাইলটি ফোল্ডারে থাকতে হবে */
+            src: url('সাবির ২ UNICODE.ttf');
         }
 
-        body {
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- Meesho স্টাইল লোডিং সেকশন --- */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .meesho-m-loader {
+            width: 70px; 
+            height: 70px;
+            overflow: visible;
+        }
+
+        .m-path {
+            fill: none;
+            stroke-width: 12px;
+            stroke-linecap: round;
+        }
+
+        .bg-path {
+            stroke: #f3e5f5; /* হালকা বেগুনি ব্যাকগ্রাউন্ড */
+        }
+
+        .anim-path {
+            stroke: #9c27b0; /* Meesho Purple অ্যানিমেশন */
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-and-erase 2.5s ease-in-out infinite;
+        }
+
+        @keyframes draw-and-erase {
+            0% { stroke-dashoffset: 600; }
+            45% { stroke-dashoffset: 0; }
+            55% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -600; }
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-family: sans-serif;
+            color: #777;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* --- মূল পেজ স্টাইল --- */
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,7 +83,6 @@
             overflow: hidden;
         }
 
-        /* ব্যাকগ্রাউন্ডে ছোট ছোট তারার মতো এফেক্ট */
         body::before {
             content: "";
             position: absolute;
@@ -38,7 +96,7 @@
 
         .card {
             background: rgba(44, 0, 62, 0.4);
-            border: 2px solid #ffd700; /* গোল্ডেন বর্ডার */
+            border: 2px solid #ffd700;
             backdrop-filter: blur(15px);
             padding: 40px 30px;
             border-radius: 25px;
@@ -47,6 +105,16 @@
             max-width: 450px;
             width: 90%;
             animation: glow 3s infinite alternate;
+            
+            /* শুরুতে কার্ডটি লুকিয়ে রাখা হচ্ছে লোডারের জন্য */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .card.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @keyframes glow {
@@ -110,7 +178,15 @@
 </head>
 <body>
 
-    <div class="card">
+    <div id="loader-wrapper">
+        <svg class="meesho-m-loader" viewBox="0 0 100 100">
+            <path class="m-path bg-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+            <path class="m-path anim-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+        </svg>
+        <div class="loader-text">Please wait...</div>
+    </div>
+
+    <div class="card" id="main-card">
         <h2>
             " এই product টা এতটাই সুন্দর যে এটা আমি চাঁদ থেকে পৃথিবীতে পৌঁছাবো তার জন্য delivery charge "
         </h2>
@@ -125,6 +201,20 @@
         
         <span class="footer-emoji">ধন্যবাদ 🌸</span>
     </div>
+
+    <script>
+        window.onload = () => {
+            const loader = document.getElementById("loader-wrapper");
+            const card = document.getElementById("main-card");
+
+            // যেহেতু কোনো এক্সট্রা ইমেজ নেই, তাই ১.৫ সেকেন্ড ডিলে দিয়ে কার্ডটি দেখানো হবে
+            setTimeout(() => {
+                loader.style.opacity = "0";
+                loader.style.visibility = "hidden";
+                card.classList.add("show");
+            }, 1500);
+        };
+    </script>
 
 </body>
 </html>
