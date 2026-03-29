@@ -3,8 +3,49 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Meesho Smooth Paging</title>
+    <title>Sangita Das - Luxury Pret</title>
     <style>
+        /* === আপনার লোডারের জন্য প্রয়োজনীয় CSS === */
+        #loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .loader-container { text-align: center; }
+        .meesho-m-loader { width: 80px; height: 80px; overflow: visible; }
+        .m-path { fill: none; stroke-width: 12px; stroke-linecap: round; }
+        .bg-path { stroke: #E4C7ED; }
+        .anim-path {
+            stroke: #9c27b0;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+            animation: draw-and-erase 3s ease-in-out infinite;
+        }
+
+        @keyframes draw-and-erase {
+            0% { stroke-dashoffset: 600; }
+            45% { stroke-dashoffset: 0; }
+            55% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -600; }
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            color: #777;
+            font-size: 18px;
+            font-weight: 500;
+            font-family: sans-serif;
+        }
+
+        /* === আপনার অরিজিনাল CSS স্টাইল (অপরিবর্তিত) === */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,6 +63,10 @@
             background-color: #fff;
             overflow-x: hidden;
             padding-bottom: 90px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* Nav bar */
@@ -150,7 +195,17 @@
 </head>
 <body>
 
-    <audio id="roastAudio" src="ja-yaha-se-nikal.mp3"></audio>
+    <div id="loader-overlay">
+        <div class="loader-container">
+            <svg class="meesho-m-loader" viewBox="0 0 100 100">
+                <path class="m-path bg-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+                <path class="m-path anim-path" d="M 15 90 V 40 C 15 10, 40 10, 40 40 V 90 V 40 C 40 10, 65 10, 65 40 V 90" />
+            </svg>
+            <div class="loading-text">Please wait...</div>
+        </div>
+    </div>
+
+    <audio id="roastAudio" src="payari-samaj-gayi.mp3"></audio>
 
     <nav>
         <img src="back.png" class="icon-img" style="margin-left:-7px;" onclick="goBack()">
@@ -164,7 +219,7 @@
     <div class="carousel-wrapper" id="carousel">
         <div class="carousel-item"><img src="sangita-scroll-4.jpg"></div>
         <div class="carousel-item"><img src="sangita-scroll-1.jpg"></div>
-        <div class="carousel-item"><img src="sangita-scroll-3.jpg"></div>
+        <div class="carousel-item"><img src="sangita-scroll-6.jpg"></div>
     </div>
     
     <div class="dots" id="dots"></div>
@@ -173,12 +228,12 @@
         <p class="section-label">2 Similar Products</p>
         <div class="similar-list">
             <a href="sangita-product-1.html" onclick="playMusic()"><div class="similar-card active"><img src="sangita-scroll-4.jpg"></div></a>
-            <a href="sangita-product-2.html" onclick="playMusic()"><div class="similar-card"><img src="sangita-scroll-2.jpg"></div></a>
+            <a href="sangita-product-2.html" onclick="playMusic()"><div class="similar-card"><img src="sangita-scroll-5.jpg"></div></a>
         </div>
 
         <div class="product-header">
             <div class="brand-info" onclick="openRoast('profile')">
-                <h2>SANGITA <span style="font-weight:400; color:#777;">Barman</span></h2>
+                <h2>Sangita <span style="font-weight:400; color:#777;">Das</span></h2>
                 <p>luxury pret</p>
             </div>
             <div class="action-icons">
@@ -190,7 +245,7 @@
         <div class="price-box">
             <br>
             <div class="price-main">₹2,35,00,000 <span style="font-size:15px; font-weight:400; color:#888;">onwards</span></div>
-            <p class="offer-text">₹2,20,00,000 with 8 Special Offers ></p>
+            <p class="offer-text">₹2,20,00,000 with 8 Offers</p>
             <span style="font-weight:400; color:#777;">Free Delivery</span><br>
             <div class="rating-badge">4.9 ★</div>
             <span style="font-size:12px; color:#888; margin-left:3px;">(38,912)</span>
@@ -219,6 +274,15 @@
     </div>
 
     <script>
+        // === ইমেজ এবং পুরো পেজ লোড হওয়া পর্যন্ত লোডার দেখানোর ফাংশন ===
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-overlay');
+            // একটু স্মুথনেস এর জন্য ৫০০ মিলিসেকেন্ড ডিলে দেওয়া হলো
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
         // গান বাজানোর ফাংশন
         function playMusic() {
             const audio = document.getElementById('roastAudio');
